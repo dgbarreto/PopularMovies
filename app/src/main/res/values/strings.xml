@@ -1,0 +1,5 @@
+<resources>
+    <string name="movie_db_api_key">3bd7592dc12ccd2240b8b6162b8a3273</string>
+    <string name="app_name">Popular Movies</string>
+    <string name="action_settings">Settings</string>
+</resources>
