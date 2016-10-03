@@ -4,6 +4,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +30,13 @@ public class Movie {
     private Date mReleaseDate;
 
     private final String mBaseUrl = "https://image.tmdb.org/t/p/w500";
+    private final String OWS_TITLE = "original_title";
+    private final String OWS_MOVIE_POSTER = "poster_path";
+
+    public Movie(JSONObject data) throws JSONException {
+        mTitle = data.getString(OWS_TITLE);
+        mMoviePoster = data.getString(OWS_MOVIE_POSTER);
+    }
 
     public void setMoviePoster(String moviePoster){
         mMoviePoster = moviePoster;
@@ -35,53 +46,5 @@ public class Movie {
     }
     public String getMoviePosterFullUrl(){
         return mBaseUrl + "/" + mMoviePoster;
-    }
-    public static List<Movie> getTopRatedMovies(){
-
-    }
-}
-
-class FetchMovieTask extends AsyncTask<Void, Void, Void>{
-    private String mApiKey;
-    private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
-
-    public FetchMovieTask(String apiKey){
-        mApiKey = apiKey;
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-        Uri.Builder builder = new Uri.Builder();
-
-        builder.scheme("https")
-                .authority("api.themoviedb.org")
-                .appendPath("3")
-                .appendPath("movie")
-                .appendPath("toprated")
-                .appendQueryParameter("api_key", mApiKey);
-
-        Log.v(LOG_TAG, builder.build().toString());
-
-        try {
-            URL url = new URL(builder.build().toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            InputStream inputStream = urlConnection.getInputStream();
-
-            if(inputStream == null)
-                return null;
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer rawData = new StringBuffer();
-            String line;
-            while((line = bufferedReader.readLine()) != null)
-                rawData.append(line);
-
-            return null;
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
     }
 }
