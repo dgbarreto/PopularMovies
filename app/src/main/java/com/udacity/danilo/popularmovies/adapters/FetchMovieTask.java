@@ -15,12 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 
-/**
- * Created by danil on 02/10/2016.
- */
-
-public class FetchMovieTask extends AsyncTask<Void, Void, Movie[]> {
+public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
     private String mApiKey;
     private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
     private MovieAdapter mAdapter;
@@ -30,7 +27,7 @@ public class FetchMovieTask extends AsyncTask<Void, Void, Movie[]> {
         mAdapter = adapter;
     }
 
-    private Movie[] getMovieDataFromJson(String jsonData) throws JSONException {
+    private Movie[] getMovieDataFromJson(String jsonData) throws JSONException, ParseException {
         final String OWS_LIST = "results";
 
         JSONObject moviesJSON = new JSONObject(jsonData);
@@ -46,14 +43,19 @@ public class FetchMovieTask extends AsyncTask<Void, Void, Movie[]> {
     }
 
     @Override
-    protected Movie[] doInBackground(Void... voids) {
+    protected Movie[] doInBackground(String... params) {
+        if(params.length < 1)
+            return null;
+
+        String orderEP = params[0];
+
         Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("https")
                 .authority("api.themoviedb.org")
                 .appendPath("3")
                 .appendPath("movie")
-                .appendPath("top_rated")
+                .appendPath(orderEP)
                 .appendQueryParameter("api_key", mApiKey);
 
         Log.v(LOG_TAG, builder.build().toString());
@@ -70,16 +72,18 @@ public class FetchMovieTask extends AsyncTask<Void, Void, Movie[]> {
                 return null;
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer rawData = new StringBuffer();
+            StringBuilder rawData = new StringBuilder();
             String line;
             while((line = bufferedReader.readLine()) != null)
                 rawData.append(line);
 
             return getMovieDataFromJson(rawData.toString());
         } catch (java.io.IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "IOException in FetchMovieTask", e);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "JSONException in FetchMovieTask", e);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "ParseException in FetchMovieTask", e);
         }
 
         return null;
