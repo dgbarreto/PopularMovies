@@ -28,11 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by Danilo on 02/10/2016.
- */
-
 public class MovieAdapter extends ArrayAdapter<Movie> {
+    private final String LOG_TAG = MovieAdapter.class.getSimpleName();
     public MovieAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -42,11 +39,11 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie, null);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie, parent, false);
         }
 
         Movie movie = getItem(position);
@@ -54,6 +51,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         if(movie != null){
             ImageView imagePoster = (ImageView) view.findViewById(R.id.image_movie_poster);
             Picasso.with(getContext()).load(movie.getMoviePosterFullUrl()).into(imagePoster);
+            Log.v(LOG_TAG, "Setting image " + movie.getMoviePosterFullUrl());
         }
 
         return view;

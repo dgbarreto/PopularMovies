@@ -10,6 +10,7 @@
     <string name="label_release_date">Release Date</string>
     <string name="label_rating">Rating</string>
     <string name="content_movie_poster">Movie Poster</string>
+    <string name="grid_movie_poster">Movie Poster</string>
 
     <string-array name="options_order">
         <item>Top Rated</item>

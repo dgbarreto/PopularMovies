@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.udacity.danilo.popularmovies.adapters.FetchMovieTask;
@@ -19,7 +20,7 @@ import com.udacity.danilo.popularmovies.bs.Movie;
  */
 public class MainActivityFragment extends Fragment {
     public static final String EXTRA_MOVIE_DATA = "EXTRA_MOVIE_DATA";
-    private ListView mListMovies;
+    private GridView mListMovies;
     private MovieAdapter mAdapter;
 
     public MainActivityFragment() {
@@ -37,7 +38,7 @@ public class MainActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         mAdapter = new MovieAdapter(getContext(), R.layout.list_item_movie);
-        mListMovies = (ListView) view.findViewById(R.id.listview_movies);
+        mListMovies = (GridView) view.findViewById(R.id.listview_movies);
         mListMovies.setAdapter(mAdapter);
 
         mListMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {

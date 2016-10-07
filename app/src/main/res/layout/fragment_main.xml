@@ -11,9 +11,11 @@
     tools:context="com.udacity.danilo.popularmovies.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-    <ListView
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listview_movies"></ListView>
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:id="@+id/listview_movies"/>
 
 </RelativeLayout>
