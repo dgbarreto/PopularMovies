@@ -11,6 +11,8 @@
     <string name="label_rating">Rating</string>
     <string name="content_movie_poster">Movie Poster</string>
     <string name="grid_movie_poster">Movie Poster</string>
+    <string name="action_top_rated_title">Top Rated</string>
+    <string name="action_popular_title">Popular</string>
 
     <string-array name="options_order">
         <item>Top Rated</item>

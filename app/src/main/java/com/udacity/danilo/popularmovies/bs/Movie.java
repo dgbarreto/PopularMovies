@@ -2,6 +2,8 @@ package com.udacity.danilo.popularmovies.bs;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -22,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
     private int mID;
     private String mTitle;
     private String mMoviePoster;
@@ -44,6 +46,15 @@ public class Movie implements Serializable {
         mVoteAverage = data.getDouble(OWS_VOTE_AVERAGE);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         mReleaseDate = dateFormat.parse(data.getString(OWS_RELEASE_DATE));
+    }
+
+    private Movie(Parcel parcel){
+        mID = parcel.readInt();
+        mTitle = parcel.readString();
+        mMoviePoster = parcel.readString();
+        mPlot = parcel.readString();
+        mVoteAverage = parcel.readDouble();
+        mReleaseDate = new Date(parcel.readLong());
     }
 
     public void setMoviePoster(String moviePoster){
@@ -68,4 +79,28 @@ public class Movie implements Serializable {
     public void setVoteAverage(double vote){ mVoteAverage = vote; }
     public Date getReleaseDate(){ return mReleaseDate; }
     public void setReleaseDate(Date date){ mReleaseDate = date; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mID);
+        parcel.writeString(mTitle);
+        parcel.writeString(mMoviePoster);
+        parcel.writeString(mPlot);
+        parcel.writeDouble(mVoteAverage);
+        parcel.writeLong(mReleaseDate.getTime());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
+        public Movie createFromParcel(Parcel parcel){
+            return new Movie(parcel);
+        }
+        public Movie[] newArray(int size){
+            return new Movie[size];
+        }
+    };
 }

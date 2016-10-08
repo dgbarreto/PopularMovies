@@ -32,7 +32,8 @@ public class MovieDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View output = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
-        Movie movie = (Movie) getActivity().getIntent().getSerializableExtra(MainActivityFragment.EXTRA_MOVIE_DATA);
+        //Movie movie = (Movie) getActivity().getIntent().getSerializableExtra(MainActivityFragment.EXTRA_MOVIE_DATA);
+        Movie movie = getActivity().getIntent().getParcelableExtra(MainActivityFragment.EXTRA_MOVIE_DATA);
 
         mMovieTitle = (TextView) output.findViewById(R.id.tv_movie_title);
         mMoviePoster = (ImageView) output.findViewById(R.id.iv_movie_poster);
