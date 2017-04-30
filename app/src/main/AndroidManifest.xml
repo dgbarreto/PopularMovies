@@ -29,7 +29,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.danilo.popularmovies.MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".ReviewActivity"
+            android:label="User Reviews"
+            android:parentActivityName=".MovieDetails"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.udacity.danilo.popularmovies.MovieDetails"/>
+        </activity>
     </application>
 
 </manifest>

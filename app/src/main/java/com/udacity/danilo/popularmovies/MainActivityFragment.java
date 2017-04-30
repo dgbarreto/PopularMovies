@@ -1,6 +1,7 @@
 package com.udacity.danilo.popularmovies;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.udacity.danilo.popularmovies.adapters.FetchMovieTask;
 import com.udacity.danilo.popularmovies.adapters.MovieAdapter;
@@ -27,6 +30,7 @@ public class MainActivityFragment extends Fragment {
     private MovieAdapter mAdapter;
     private final String ORDER_POPULAR = "popular";
     private final String ORDER_TOP_RATED = "top_rated";
+    private Spinner spOrder;
 
     public MainActivityFragment() {
     }
@@ -36,6 +40,23 @@ public class MainActivityFragment extends Fragment {
         super.onStart();
         updateMovieData();
         setHasOptionsMenu(true);
+
+        spOrder = (Spinner) getView().findViewById(R.id.spOrder);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getView().getContext(), R.array.options_order, android.R.layout.simple_spinner_dropdown_item);
+        spOrder.setAdapter(adapter);
+        spOrder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String valueSelected = (String) adapterView.getItemAtPosition(i);
+                String[] values = getResources().getStringArray(R.array.options_order_value);
+                updateMovieData(values[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -97,7 +118,10 @@ public class MainActivityFragment extends Fragment {
         updateMovieData(order);
     }
     private  void updateMovieData(String order){
-        PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(getString(R.string.options_order_key), order).apply();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        editor.putString(getString(R.string.options_order_key), order);
+        editor.apply();
+        editor.commit();
         FetchMovieTask movieTask = new FetchMovieTask(getString(R.string.movie_db_api_key), mAdapter);
         movieTask.execute(order);
     }

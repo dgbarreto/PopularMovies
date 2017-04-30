@@ -58,9 +58,14 @@
 
         </LinearLayout>
 
-
         <TextView
             style="@style/AppTheme.MovieSynopsis"
             android:id="@+id/tv_plot_synopsis"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btTrailer"
+            android:src="@mipmap/ic_youtube"/>
     </LinearLayout>
 </ScrollView>

@@ -11,10 +11,18 @@
     tools:context="com.udacity.danilo.popularmovies.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spOrder">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
+        android:layout_below="@+id/spOrder"
         android:stretchMode="columnWidth"
         android:id="@+id/listview_movies"/>
 

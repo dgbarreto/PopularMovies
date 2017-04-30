@@ -31,6 +31,7 @@ public class Movie implements Parcelable {
     private String mPlot;
     private double mVoteAverage;
     private Date mReleaseDate;
+    private boolean mHasTrailer;
 
     private final String mBaseUrl = "https://image.tmdb.org/t/p/w500";
     private final String OWS_TITLE = "original_title";
@@ -38,14 +39,22 @@ public class Movie implements Parcelable {
     private final String OWS_SYNOPSIS = "overview";
     private final String OWS_VOTE_AVERAGE = "vote_average";
     private final String OWS_RELEASE_DATE = "release_date";
+    private final String OWS_ID = "id";
+    private final String OWS_TRAILER = "video";
 
     public Movie(JSONObject data) throws JSONException, ParseException {
+        mID = data.getInt(OWS_ID);
+        mHasTrailer = data.getBoolean(OWS_TRAILER);
         mTitle = data.getString(OWS_TITLE);
         mMoviePoster = data.getString(OWS_MOVIE_POSTER);
         mPlot = data.getString(OWS_SYNOPSIS);
         mVoteAverage = data.getDouble(OWS_VOTE_AVERAGE);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        mReleaseDate = dateFormat.parse(data.getString(OWS_RELEASE_DATE));
+        String releaseDate = data.getString(OWS_RELEASE_DATE);
+
+        if(!releaseDate.isEmpty()){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            mReleaseDate = dateFormat.parse(releaseDate);
+        }
     }
 
     private Movie(Parcel parcel){
@@ -67,6 +76,8 @@ public class Movie implements Parcelable {
         return mBaseUrl + "/" + mMoviePoster;
     }
 
+    public int getID(){ return mID; }
+    public boolean getHasTrailer() { return mHasTrailer; }
     public String getTitle(){
         return mTitle;
     }

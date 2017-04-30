@@ -16,7 +16,7 @@ public class MovieDetails extends AppCompatActivity {
 
         setContentView(R.layout.activity_movie_details);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarDetails);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null)
