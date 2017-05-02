@@ -8,5 +8,5 @@
         android:orderInCategory="101"
         android:title="@string/menu_reviews"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_top_rated"/>
+        android:icon="@drawable/ic_reviews"/>
 </menu>
