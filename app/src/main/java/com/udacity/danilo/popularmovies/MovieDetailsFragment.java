@@ -1,6 +1,7 @@
 package com.udacity.danilo.popularmovies;
 
 import android.app.VoiceInteractor;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.udacity.danilo.popularmovies.adapters.FetchMovieTrailerTask;
 import com.udacity.danilo.popularmovies.bs.Movie;
+import com.udacity.danilo.popularmovies.data.MovieContract;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -29,6 +31,7 @@ import java.util.Locale;
 public class MovieDetailsFragment extends Fragment {
     ImageButton ibTrailer;
     private String mMovieID;
+    private Movie mMovie;
 
     public MovieDetailsFragment() {
     }
@@ -45,6 +48,8 @@ public class MovieDetailsFragment extends Fragment {
 
         //Movie movie = (Movie) getActivity().getIntent().getSerializableExtra(MainActivityFragment.EXTRA_MOVIE_DATA);
         final Movie movie = getActivity().getIntent().getParcelableExtra(MainActivityFragment.EXTRA_MOVIE_DATA);
+
+        mMovie = movie;
 
         mMovieTitle = (TextView) output.findViewById(R.id.tv_movie_title);
         mMoviePoster = (ImageView) output.findViewById(R.id.iv_movie_poster);
@@ -90,7 +95,25 @@ public class MovieDetailsFragment extends Fragment {
                 reviewIntent.putExtra(MovieDetailsFragment.EXTRA_MOVIE_ID, mMovieID);
                 startActivity(reviewIntent);
                 break;
+            case R.id.action_favorite:
+                addToFavorite();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addToFavorite(){
+        ContentValues values = new ContentValues();
+
+        values.put(MovieContract.MovieEntry.COLUMN_ID, mMovie.getID());
+        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getmMoviePoster());
+        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate().getTime());
+        values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, mMovie.getPlot());
+        values.put(MovieContract.MovieEntry.COLUMN_TITLE, mMovie.getTitle());
+        values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, mMovie.getVoteAverage());
+
+        getActivity().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values);
+
+        Toast.makeText(getActivity(), R.string.op_add_favorites_successfull, Toast.LENGTH_SHORT).show();
     }
 }

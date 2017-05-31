@@ -1,4 +1,5 @@
 <resources>
+    <string name="content_authority">com.udacity.danilo.popularmovies</string>
     <string name="movie_db_api_key">3bd7592dc12ccd2240b8b6162b8a3273</string>
     <string name="app_name">Popular Movies</string>
     <string name="action_settings">Settings</string>
@@ -14,6 +15,8 @@
     <string name="action_top_rated_title">Top Rated</string>
     <string name="action_popular_title">Popular</string>
     <string name="menu_reviews">Reviews</string>
+    <string name="menu_favorite">Favorito</string>
+    <string name="op_add_favorites_successfull">Movie added to favorites</string>
 
     <string-array name="options_order">
         <item>Top Rated</item>

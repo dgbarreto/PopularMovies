@@ -122,7 +122,7 @@ public class MainActivityFragment extends Fragment {
         editor.putString(getString(R.string.options_order_key), order);
         editor.apply();
         editor.commit();
-        FetchMovieTask movieTask = new FetchMovieTask(getString(R.string.movie_db_api_key), mAdapter);
+        FetchMovieTask movieTask = new FetchMovieTask(BuildConfig.MOVIEDBAPIKEY, mAdapter);
         movieTask.execute(order);
     }
 }

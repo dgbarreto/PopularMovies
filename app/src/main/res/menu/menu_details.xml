@@ -9,4 +9,10 @@
         android:title="@string/menu_reviews"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_reviews"/>
+    <item
+        android:id="@+id/action_favorite"
+        android:orderInCategory="102"
+        android:title="@string/menu_favorite"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_top_rated"/>
 </menu>
