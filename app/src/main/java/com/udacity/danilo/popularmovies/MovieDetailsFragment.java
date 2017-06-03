@@ -3,6 +3,7 @@ package com.udacity.danilo.popularmovies;
 import android.app.VoiceInteractor;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -103,17 +104,33 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void addToFavorite(){
-        ContentValues values = new ContentValues();
+        Cursor cursor = getActivity().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                new String[]{ MovieContract.MovieEntry.COLUMN_ID },
+                MovieContract.MovieEntry.COLUMN_ID + " =?",
+                new String[]{ String.valueOf(mMovie.getID()) },
+                null
+                );
 
-        values.put(MovieContract.MovieEntry.COLUMN_ID, mMovie.getID());
-        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getmMoviePoster());
-        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate().getTime());
-        values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, mMovie.getPlot());
-        values.put(MovieContract.MovieEntry.COLUMN_TITLE, mMovie.getTitle());
-        values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, mMovie.getVoteAverage());
+        if(cursor.moveToFirst()){
+            getActivity().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI,
+                    MovieContract.MovieEntry.COLUMN_ID + "=?",
+                    new String[]{ String.valueOf(mMovie.getID()) });
 
-        getActivity().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values);
+            Toast.makeText(getActivity(), R.string.op_remove_favorites_successfull, Toast.LENGTH_SHORT).show();
+        }
+        else{
+            ContentValues values = new ContentValues();
 
-        Toast.makeText(getActivity(), R.string.op_add_favorites_successfull, Toast.LENGTH_SHORT).show();
+            values.put(MovieContract.MovieEntry.COLUMN_ID, mMovie.getID());
+            values.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, mMovie.getmMoviePoster());
+            values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate().getTime());
+            values.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, mMovie.getPlot());
+            values.put(MovieContract.MovieEntry.COLUMN_TITLE, mMovie.getTitle());
+            values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, mMovie.getVoteAverage());
+
+            getActivity().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values);
+
+            Toast.makeText(getActivity(), R.string.op_add_favorites_successfull, Toast.LENGTH_SHORT).show();
+        }
     }
 }

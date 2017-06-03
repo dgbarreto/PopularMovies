@@ -17,6 +17,7 @@
     <string name="menu_reviews">Reviews</string>
     <string name="menu_favorite">Favorito</string>
     <string name="op_add_favorites_successfull">Movie added to favorites</string>
+    <string name="op_remove_favorites_successfull">Project removed from favorites list</string>
 
     <string-array name="options_order">
         <item>Top Rated</item>
