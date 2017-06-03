@@ -17,8 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
-
-import com.udacity.danilo.popularmovies.adapters.FavoriteMovieAdapter;
 import com.udacity.danilo.popularmovies.adapters.FetchMovieTask;
 import com.udacity.danilo.popularmovies.adapters.MovieAdapter;
 import com.udacity.danilo.popularmovies.bs.Movie;
@@ -31,7 +29,6 @@ public class MainActivityFragment extends Fragment {
     public static final String EXTRA_MOVIE_DATA = "EXTRA_MOVIE_DATA";
     private GridView mListMovies;
     private MovieAdapter mAdapter;
-    private FavoriteMovieAdapter mFavoriteAdapter;
     private final String ORDER_POPULAR = "popular";
     private final String ORDER_TOP_RATED = "top_rated";
     public static final String ORDER_FAVORITE = "favorites";
@@ -106,8 +103,6 @@ public class MainActivityFragment extends Fragment {
         mListMovies = (GridView) view.findViewById(R.id.listview_movies);
         mListMovies.setAdapter(mAdapter);
 
-        //mFavoriteAdapter = new FavoriteMovieAdapter(getActivity(), null, 0);
-
         mListMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -134,13 +129,5 @@ public class MainActivityFragment extends Fragment {
         editor.commit();
         FetchMovieTask movieTask = new FetchMovieTask(BuildConfig.MOVIEDBAPIKEY, mAdapter, getActivity());
         movieTask.execute(order);
-        /*Cursor cursor = getActivity().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
-                new String[]{MovieContract.MovieEntry.COLUMN_ID, MovieContract.MovieEntry.COLUMN_MOVIE_POSTER},
-                null,
-                null,
-                null);
-
-        mListMovies.setAdapter(mFavoriteAdapter);
-        mFavoriteAdapter.swapCursor(cursor);*/
     }
 }
