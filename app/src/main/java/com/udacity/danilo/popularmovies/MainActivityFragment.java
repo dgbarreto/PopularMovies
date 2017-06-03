@@ -2,6 +2,7 @@ package com.udacity.danilo.popularmovies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,9 +18,11 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.udacity.danilo.popularmovies.adapters.FavoriteMovieAdapter;
 import com.udacity.danilo.popularmovies.adapters.FetchMovieTask;
 import com.udacity.danilo.popularmovies.adapters.MovieAdapter;
 import com.udacity.danilo.popularmovies.bs.Movie;
+import com.udacity.danilo.popularmovies.data.MovieContract;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,8 +31,10 @@ public class MainActivityFragment extends Fragment {
     public static final String EXTRA_MOVIE_DATA = "EXTRA_MOVIE_DATA";
     private GridView mListMovies;
     private MovieAdapter mAdapter;
+    private FavoriteMovieAdapter mFavoriteAdapter;
     private final String ORDER_POPULAR = "popular";
     private final String ORDER_TOP_RATED = "top_rated";
+    public static final String ORDER_FAVORITE = "favorites";
     private Spinner spOrder;
 
     public MainActivityFragment() {
@@ -84,6 +89,9 @@ public class MainActivityFragment extends Fragment {
             case R.id.action_top_rated:
                 updateMovieData(ORDER_TOP_RATED);
                 return true;
+            case R.id.action_favorite:
+                updateMovieData(ORDER_FAVORITE);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -97,6 +105,8 @@ public class MainActivityFragment extends Fragment {
         mAdapter = new MovieAdapter(getContext(), R.layout.list_item_movie);
         mListMovies = (GridView) view.findViewById(R.id.listview_movies);
         mListMovies.setAdapter(mAdapter);
+
+        //mFavoriteAdapter = new FavoriteMovieAdapter(getActivity(), null, 0);
 
         mListMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,7 +132,15 @@ public class MainActivityFragment extends Fragment {
         editor.putString(getString(R.string.options_order_key), order);
         editor.apply();
         editor.commit();
-        FetchMovieTask movieTask = new FetchMovieTask(BuildConfig.MOVIEDBAPIKEY, mAdapter);
+        FetchMovieTask movieTask = new FetchMovieTask(BuildConfig.MOVIEDBAPIKEY, mAdapter, getActivity());
         movieTask.execute(order);
+        /*Cursor cursor = getActivity().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                new String[]{MovieContract.MovieEntry.COLUMN_ID, MovieContract.MovieEntry.COLUMN_MOVIE_POSTER},
+                null,
+                null,
+                null);
+
+        mListMovies.setAdapter(mFavoriteAdapter);
+        mFavoriteAdapter.swapCursor(cursor);*/
     }
 }

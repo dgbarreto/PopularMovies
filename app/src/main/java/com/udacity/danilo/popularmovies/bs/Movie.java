@@ -1,10 +1,13 @@
 package com.udacity.danilo.popularmovies.bs;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import com.udacity.danilo.popularmovies.data.MovieContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,15 @@ public class Movie implements Parcelable {
     private final String OWS_RELEASE_DATE = "release_date";
     private final String OWS_ID = "id";
     private final String OWS_TRAILER = "video";
+
+    public Movie(Cursor cursor){
+        mID  = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ID));
+        mMoviePoster = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER));
+        mTitle = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ID));
+        mPlot = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_SYNOPSIS));
+        mVoteAverage = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE));
+        mReleaseDate = new Date(cursor.getLong(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
+    }
 
     public Movie(JSONObject data) throws JSONException, ParseException {
         mID = data.getInt(OWS_ID);

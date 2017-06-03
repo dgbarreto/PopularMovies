@@ -21,10 +21,12 @@
     <string-array name="options_order">
         <item>Top Rated</item>
         <item>Most Popular</item>
+        <item>Favorites</item>
     </string-array>
 
     <string-array name="options_order_value">
         <item>top_rated</item>
         <item>popular</item>
+        <item>favorites</item>
     </string-array>
 </resources>

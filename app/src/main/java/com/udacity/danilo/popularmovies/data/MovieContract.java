@@ -21,7 +21,7 @@ public class MovieContract {
         public static final String COLUMN_SYNOPSIS = "synopsis";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_RELEASE_DATE = "release_date";
-        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_ID = "_id";
 
         public static Uri buildMovieUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
